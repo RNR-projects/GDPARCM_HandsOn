@@ -1,0 +1,2 @@
+Media/Textures/Desert.png
+Media/Textures/Windows.png
