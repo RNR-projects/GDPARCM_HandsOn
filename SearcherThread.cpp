@@ -19,8 +19,8 @@ void SearcherThread::run()
 	srand(time(NULL) + this->searchIndex);
 	while (isRunning)
 	{
-		IETThread::sleep(200);
 		determineNextMove();
+		IETThread::sleep(200);
 	}
 }
 

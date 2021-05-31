@@ -84,7 +84,7 @@ std::vector<int> IconList::getEmptyIndices()
 
 void IconList::createObject()
 {
-	String objectName = "Icon_" + std::to_string(this->iconBank.size());
+	String objectName = "Icon " + std::to_string(this->iconBank.size());
 	IconObject* iconObj = new IconObject(objectName, this->iconBank.size());
 	this->iconBank.push(iconObj);
 
@@ -117,6 +117,8 @@ void IconList::insertObject(int index)
 	this->displayedIcons[index] = iconObj;
 
 	iconObj->setPosition(index * 200, 0);
+
+	std::cout << "inserting " << iconObj->getName() << std::endl;
 }
 
 void IconList::deleteObject(int index)
@@ -125,4 +127,6 @@ void IconList::deleteObject(int index)
 	this->iconBank.push(deletedIcon);
 	deletedIcon->setPosition(-100, -100);
 	this->displayedIcons[index] = nullptr;
+
+	std::cout << "deleting " << deletedIcon->getName() << std::endl;
 }
