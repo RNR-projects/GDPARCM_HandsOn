@@ -8,7 +8,12 @@ public:
 	void processInput(sf::Event event);
 	void update(sf::Time deltaTime);
 
+	void returnToBank();
+	int getTimesDeleted();
+
 private:
 	int textureIndex = 0;
+
+	int timesDeleted = 0;
 };
 

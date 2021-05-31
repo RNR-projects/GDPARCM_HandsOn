@@ -16,17 +16,22 @@ public:
 	void update(sf::Time deltaTime) override;
 	void OnFinishedExecution() override;
 
-	bool isNextIndexPresent(int currentIndex);
+	void insertObject(int index);
+	void deleteObject(int index);
+	
+	bool isIndexPresent(int index);
 
+	bool isIndexMinimumDeleted(int index);
+	
 private:
 	IconObject* displayedIcons[10];
 	
 	std::queue<IconObject*> iconBank;
 
 	void createObject();
-	void insertObject(int index);
-	void deleteObject(int index);
 
+	int getMinimumDeletedCount();
+	
 	class IETSemaphore* newTexMutex;
 	ThreadPool* pool;
 };

@@ -4,6 +4,7 @@
 #include "TextureManager.h"
 #include "ThreadPool.h"
 #include "IconObject.h"
+#include <iostream>
 
 IconList::IconList() : AGameObject("iconList")
 {
@@ -45,7 +46,7 @@ void IconList::OnFinishedExecution()
 	this->newTexMutex->acquire();
 
 	createObject();
-	if (this->iconBank.size() >= 10)
+	if (this->iconBank.size() == 20)
 	{
 		for (int i = 0; i < 10; i++)
 		{
@@ -55,15 +56,19 @@ void IconList::OnFinishedExecution()
 	this->newTexMutex->release();
 }
 
-bool IconList::isNextIndexPresent(int currentIndex)
+bool IconList::isIndexPresent(int index)
 {
-	if (currentIndex < 9) {
-		return this->displayedIcons[currentIndex + 1] != nullptr;
+	return this->displayedIcons[index] != nullptr;
+}
+
+bool IconList::isIndexMinimumDeleted(int index)
+{
+	if (this->displayedIcons[index] != nullptr)
+	{
+		return this->displayedIcons[index]->getTimesDeleted() == getMinimumDeletedCount();
 	}
 	else
-	{
-		return this->displayedIcons[0] != nullptr;
-	}
+		return false;
 }
 
 void IconList::createObject()
@@ -75,6 +80,23 @@ void IconList::createObject()
 	iconObj->setPosition(-100, -100);
 
 	GameObjectManager::getInstance()->addObject(iconObj);
+}
+
+int IconList::getMinimumDeletedCount()
+{
+	int minimum = INT_MAX;
+	for (int i = 0; i < 10; i++)
+	{
+		if (displayedIcons[i] != nullptr)
+		{
+			if (displayedIcons[i]->getTimesDeleted() < minimum)
+			{
+				minimum = displayedIcons[i]->getTimesDeleted();
+			}
+		}
+	}
+
+	return minimum;
 }
 
 void IconList::insertObject(int index)
@@ -91,6 +113,5 @@ void IconList::deleteObject(int index)
 	IconObject* deletedIcon = this->displayedIcons[index];
 	this->iconBank.push(deletedIcon);
 	deletedIcon->setPosition(-100, -100);
-	
 	this->displayedIcons[index] = nullptr;
 }

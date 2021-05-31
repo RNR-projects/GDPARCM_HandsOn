@@ -20,3 +20,13 @@ void IconObject::processInput(sf::Event event)
 void IconObject::update(sf::Time deltaTime)
 {
 }
+
+void IconObject::returnToBank()
+{
+	this->timesDeleted++;
+}
+
+int IconObject::getTimesDeleted()
+{
+	return this->timesDeleted;
+}

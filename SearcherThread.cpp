@@ -2,10 +2,10 @@
 #include "IconList.h"
 #include "TextureManager.h"
 #include "RNGManager.h"
+#include "ListEditorsManager.h"
 
-SearcherThread::SearcherThread(int index, IconList* list) : AGameObject("Searcher " + index)
+SearcherThread::SearcherThread(int index) : AGameObject("Searcher " + index)
 {
-	this->list = list;
 	this->searchIndex = index;
 }
 
@@ -19,7 +19,7 @@ void SearcherThread::run()
 	srand(time(NULL) + this->searchIndex);
 	while (isRunning)
 	{
-		IETThread::sleep(500);
+		IETThread::sleep(200);
 		determineNextMove();
 	}
 }
@@ -38,8 +38,6 @@ void SearcherThread::initialize()
 	this->sprite = new sf::Sprite();
 	sf::Texture* texture = TextureManager::getInstance()->getFromTextureMap("selector", 0);
 	this->sprite->setTexture(*texture);
-	//this->currentIndex = RNGManager::getInstance()->getRandomNumber(0, 10);
-	this->setPosition(currentIndex * 200, 100 * searchIndex + 100);
 }
 
 void SearcherThread::update(sf::Time deltaTime)
@@ -52,12 +50,14 @@ void SearcherThread::determineNextMove()
 	int jumps = RNGManager::getInstance()->getRandomNumber(1, 9);
 	for (int i = 0; i < jumps; i++)
 	{
-		while (!this->list->isNextIndexPresent(currentIndex))
+		int startingIndex = currentIndex;
+		while (!ListEditorsManager::getInstance()->isSearcherMoveSafe(currentIndex))
 		{
 			currentIndex = (currentIndex + 1) % 10;
 		}
+
 		currentIndex = (currentIndex + 1) % 10;
-		this->setPosition(currentIndex * 200, 100 * searchIndex + 100);
+		ListEditorsManager::getInstance()->moveSearcherToIndex(startingIndex, currentIndex, this);
 		IETThread::sleep(100);
 	}
 }

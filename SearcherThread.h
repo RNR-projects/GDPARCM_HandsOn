@@ -2,11 +2,10 @@
 #include "IETThread.h"
 #include "AGameObject.h"
 
-class IconList;
 class SearcherThread : public IETThread, public AGameObject
 {
 public:
-	SearcherThread(int index, IconList* list);
+	SearcherThread(int index);
 	~SearcherThread();
 
 	void run() override;
@@ -17,7 +16,6 @@ public:
 	void update(sf::Time deltaTime) override;
 
 private:
-	IconList* list;
 	int currentIndex = 0;
 	int searchIndex;
 
