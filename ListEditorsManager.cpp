@@ -41,8 +41,7 @@ void ListEditorsManager::initialize()
 		DeleterThread* deleter = new DeleterThread(i);
 		deleters.push_back(deleter);
 		GameObjectManager::getInstance()->addObject(deleter);
-		editorsAtAPoint[0].push_back(deleter);
-		deleter->setPosition(0, editorsAtAPoint[0].size() * 100);
+		deleter->setPosition(0, 100);
 		deleter->start();
 	}
 
@@ -51,8 +50,7 @@ void ListEditorsManager::initialize()
 		InserterThread* inserter = new InserterThread(i);
 		inserters.push_back(inserter);
 		GameObjectManager::getInstance()->addObject(inserter);
-		editorsAtAPoint[0].push_back(inserter);
-		inserter->setPosition(0, editorsAtAPoint[0].size() * 100);
+		inserter->setPosition(0, i * 100 + 200);
 		inserter->start();
 	}
 	
@@ -62,7 +60,7 @@ void ListEditorsManager::initialize()
 		searchers.push_back(searcher);
 		GameObjectManager::getInstance()->addObject(searcher);
 		searchersAtAPoint[0].push_back(searcher);
-		searcher->setPosition(0, (searchersAtAPoint[0].size() + editorsAtAPoint[0].size()) * 100);
+		searcher->setPosition(0, (searchersAtAPoint[0].size() + 2) * 100);
 		searcher->start();
 	}
 }
@@ -73,20 +71,19 @@ void ListEditorsManager::moveSearcherToIndex(int currentIndex, int newIndex, AGa
 	
 	searchersAtAPoint[currentIndex].erase(std::remove(searchersAtAPoint[currentIndex].begin(), searchersAtAPoint[currentIndex].end(), object), searchersAtAPoint[currentIndex].end());
 	searchersAtAPoint[newIndex].push_back(object);
-	object->setPosition(newIndex * 200, (searchersAtAPoint[newIndex].size() + editorsAtAPoint[newIndex].size()) * 100);
+	object->setPosition(newIndex * 200, (searchersAtAPoint[newIndex].size() + 2) * 100);
 	
 	this->moveMutex->release();
 }
 
-void ListEditorsManager::moveEditorToIndex(int currentIndex, int newIndex, AGameObject* object)
+void ListEditorsManager::moveDeleterToIndex(int currentIndex, int newIndex, AGameObject* object)
 {
-	this->moveMutex->acquire();
+	object->setPosition(newIndex * 200, 100);
+}
 
-	editorsAtAPoint[currentIndex].erase(std::remove(editorsAtAPoint[currentIndex].begin(), editorsAtAPoint[currentIndex].end(), object), editorsAtAPoint[currentIndex].end());
-	editorsAtAPoint[newIndex].push_back(object);
-	object->setPosition(newIndex * 200, editorsAtAPoint[newIndex].size() * 100);
-
-	this->moveMutex->release();
+void ListEditorsManager::moveInserterToIndex(int currentIndex, int newIndex, AGameObject* object)
+{
+	object->setPosition(newIndex * 200, 200);
 }
 
 bool ListEditorsManager::isSearcherMoveSafe(int index)

@@ -47,7 +47,7 @@ void InserterThread::determineNextMove()
 	int insertIndex = ListEditorsManager::getInstance()->getEmptyIndex();
 	if (insertIndex != -1)
 	{
-		ListEditorsManager::getInstance()->moveEditorToIndex(currentIndex, insertIndex, this);
+		ListEditorsManager::getInstance()->moveInserterToIndex(currentIndex, insertIndex, this);
 		currentIndex = insertIndex;
 		IETThread::sleep(200);
 		ListEditorsManager::getInstance()->insertAtIndex(insertIndex);

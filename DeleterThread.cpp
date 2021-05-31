@@ -52,7 +52,7 @@ void DeleterThread::determineNextMove()
 		random = RNGManager::getInstance()->getRandomNumber(0, 10);
 	} while (!ListEditorsManager::getInstance()->isDeleteIndexSafe(random));
 
-	ListEditorsManager::getInstance()->moveEditorToIndex(currentIndex, random, this);
+	ListEditorsManager::getInstance()->moveDeleterToIndex(currentIndex, random, this);
 	currentIndex = random;
 
 	IETThread::sleep(200);

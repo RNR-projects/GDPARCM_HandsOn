@@ -12,7 +12,8 @@ public:
 	void initialize();
 
 	void moveSearcherToIndex(int currentIndex, int newIndex, class AGameObject* object);
-	void moveEditorToIndex(int currentIndex, int newIndex, class AGameObject* object);
+	void moveDeleterToIndex(int currentIndex, int newIndex, class AGameObject* object);
+	void moveInserterToIndex(int currentIndex, int newIndex, class AGameObject* object);
 	
 	bool isSearcherMoveSafe(int index);
 	bool isDeleteIndexSafe(int index);
@@ -37,7 +38,6 @@ private:
 	IconList* iconList;
 
 	std::vector<class AGameObject*> searchersAtAPoint[10];
-	std::vector<class AGameObject*> editorsAtAPoint[10];
 	
 	bool isIndexBeingRemoved[10];
 	bool isIndexBeingInserted[10];
