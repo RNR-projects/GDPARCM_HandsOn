@@ -16,8 +16,10 @@ public:
 	
 	bool isSearcherMoveSafe(int index);
 	bool isDeleteIndexSafe(int index);
+	int getEmptyIndex();
 
 	void deleteAtIndex(int index);
+	void insertAtIndex(int index);
 private:
 	ListEditorsManager();
 	ListEditorsManager(ListEditorsManager const&) {};
@@ -36,10 +38,15 @@ private:
 
 	std::vector<class AGameObject*> searchersAtAPoint[10];
 	std::vector<class AGameObject*> editorsAtAPoint[10];
+	
 	bool isIndexBeingRemoved[10];
+	bool isIndexBeingInserted[10];
+
+	bool areAllIndicesReserved(std::vector<int> indices);
 
 	IETSemaphore* moveMutex;
 	IETSemaphore* deleteCheckMutex;
 	IETSemaphore* editListMutex;
+	IETSemaphore* insertChoiceMutex;
 };
 

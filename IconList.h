@@ -22,6 +22,7 @@ public:
 	bool isIndexPresent(int index);
 
 	bool isIndexMinimumDeleted(int index);
+	std::vector<int> getEmptyIndices();
 	
 private:
 	IconObject* displayedIcons[10];

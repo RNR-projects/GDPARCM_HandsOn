@@ -71,6 +71,17 @@ bool IconList::isIndexMinimumDeleted(int index)
 		return false;
 }
 
+std::vector<int> IconList::getEmptyIndices()
+{
+	std::vector<int> indices;
+	for (int i = 0; i < 10; i++)
+	{
+		if (displayedIcons[i] == nullptr)
+			indices.push_back(i);
+	}
+	return indices;
+}
+
 void IconList::createObject()
 {
 	String objectName = "Icon_" + std::to_string(this->iconBank.size());
