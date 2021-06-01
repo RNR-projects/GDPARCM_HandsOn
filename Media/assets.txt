@@ -1,2 +1,4 @@
 Media/Textures/Desert.png
-Media/Textures/Windows.png
+Media/Textures/selector.png
+Media/Textures/deleter.png
+Media/Textures/inserter.png
